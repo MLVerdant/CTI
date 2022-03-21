@@ -6,7 +6,7 @@ use Exception;
 
 class Define
 {
-    const CACHE_FOLDER = '/local/cache/';
+    const CACHE_FOLDER = 'local/cache/';
     const IBLOCK_ID_FILENAME = 'ibList.json';
 
     /**
