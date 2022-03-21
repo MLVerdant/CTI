@@ -52,14 +52,16 @@ class Define
      */
     protected static function getIblockListFile(): array
     {
-        $content = implode(' ', file($_SERVER['DOCUMENT_ROOT'] . self::CACHE_FOLDER . self::IBLOCK_ID_FILENAME));
+        $content = implode(' ', file( self::CACHE_FOLDER . self::IBLOCK_ID_FILENAME));
         if ($content === false) {
+            echo 'Не удалось прочитать файл с кешем';
             return [];
         }
 
         $content = json_decode($content, true);
 
         if (!$content) {
+            echo 'Код ИБ не был найден';
             return [];
         }
 
@@ -89,7 +91,7 @@ class Define
             fwrite($fp, json_encode($iblockList));
             fclose($fp);
         } catch (Exception $exception) {
-            throw $exception;
+            die ($exception->getMessage());
         }
         return $iblockList;
     }
@@ -118,13 +120,12 @@ class Define
 
     /**
      * Проверяет существование директории и файла с кешем списка ИБ
-     * @throws Exception
      */
     public static function checkDir()
     {
         if (!file_exists($_SERVER['DOCUMENT_ROOT'] . self::CACHE_FOLDER)) {
             if (!mkdir($_SERVER['DOCUMENT_ROOT'] . self::CACHE_FOLDER, 0777, true)) {
-                throw new Exception('Не удалось создать директорию для кеша');
+                die('Не удалось создать директорию для кеша');
             }
         }
 
@@ -133,7 +134,7 @@ class Define
                 $fp = fopen(self::IBLOCK_ID_FILENAME, 'x');
                 fclose($fp);
             } catch (Exception $exception) {
-                throw $exception;
+                die ($exception->getMessage());
             }
         }
     }
@@ -146,9 +147,7 @@ class Define
     public static function getIblock($iblockCode = null)
     {
         if (empty($iblockCode)) {
-            echo 'Символьный код ИБ не определён эхо';
             die('Символьный код ИБ не определён');
-            throw new Exception('Символьный код ИБ не определён');
         }
         self::checkDir();
         $ibList = self::getIblocks();
