@@ -146,6 +146,8 @@ class Define
     public static function getIblock($iblockCode = null)
     {
         if (empty($iblockCode)) {
+            echo 'Символьный код ИБ не определён эхо';
+            die('Символьный код ИБ не определён');
             throw new Exception('Символьный код ИБ не определён');
         }
         self::checkDir();
