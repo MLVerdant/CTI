@@ -6,7 +6,7 @@ use Exception;
 
 class Define
 {
-    const CACHE_FOLDER = 'local/cache/';
+    const CACHE_FOLDER = '/local/cache/';
     const IBLOCK_ID_FILENAME = 'ibList.json';
 
     /**
@@ -52,7 +52,7 @@ class Define
      */
     protected static function getIblockListFile(): array
     {
-        $content = implode(' ', file( self::CACHE_FOLDER . self::IBLOCK_ID_FILENAME));
+        $content = implode(' ', file($_SERVER['DOCUMENT_ROOT'] . self::CACHE_FOLDER . self::IBLOCK_ID_FILENAME));
         if ($content === false) {
             echo 'Не удалось прочитать файл с кешем';
             return [];
